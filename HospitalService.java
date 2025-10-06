@@ -26,7 +26,6 @@ public class HospitalService {
         }
     }
 
-    // Return nearest hospital (distance) to a given location
     public Hospital findNearestHospital(String location, Graph graph) {
         Hospital nearest = null;
         long best = Long.MAX_VALUE;
