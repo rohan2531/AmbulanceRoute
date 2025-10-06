@@ -34,7 +34,6 @@ public class DispatchService {
         Graph.PathResult routeToPatient = graph.dijkstra(amb.currentLocation, patientLocation);
         Graph.PathResult routeToHospital = graph.dijkstra(patientLocation, hosp.location);
 
-        // mark ambulance busy and update current location to hospital (after dispatch) if you'd like to simulate
         amb.isAvailable = false;
 
         System.out.println("🚑 Dispatching ambulance " + amb.id);
