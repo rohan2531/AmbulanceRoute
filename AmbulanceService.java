@@ -26,7 +26,6 @@ public class AmbulanceService {
         }
     }
 
-    // Find nearest available ambulance to a given location using graph.dijkstra
     public Ambulance findNearestAmbulance(String location, Graph graph) {
         Ambulance nearest = null;
         long best = Long.MAX_VALUE;
