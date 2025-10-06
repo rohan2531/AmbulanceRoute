@@ -2,13 +2,9 @@ package amburoute;
 
 import java.util.*;
 
-/**
- * Graph with Dijkstra implementation returning path + distance.
- */
 public class Graph {
     private Map<String, List<Edge>> adjList = new HashMap<>();
 
-    // Edge representation
     static class Edge {
         String to;
         int weight;
@@ -18,7 +14,6 @@ public class Graph {
         }
     }
 
-    // Small helper node for the priority queue
     static class PQNode {
         String id;
         long dist;
@@ -28,10 +23,9 @@ public class Graph {
         }
     }
 
-    // Result container: distance and path
     public static class PathResult {
-        public final long distance;       // -1 if unreachable
-        public final List<String> path;   // empty list if unreachable
+        public final long distance;       
+        public final List<String> path;  
 
         public PathResult(long distance, List<String> path) {
             this.distance = distance;
@@ -41,13 +35,9 @@ public class Graph {
 
     public void addEdge(String from, String to, int weight) {
         adjList.computeIfAbsent(from, k -> new ArrayList<>()).add(new Edge(to, weight));
-        adjList.computeIfAbsent(to, k -> new ArrayList<>()).add(new Edge(from, weight)); // undirected
+        adjList.computeIfAbsent(to, k -> new ArrayList<>()).add(new Edge(from, weight)); 
     }
 
-    /**
-     * Dijkstra from start -> end. Returns PathResult with distance and ordered path.
-     * If end is unreachable, distance = -1 and path is empty.
-     */
     public PathResult dijkstra(String start, String end) {
         if (start == null || end == null) return new PathResult(-1, Collections.emptyList());
         if (!adjList.containsKey(start)) return new PathResult(-1, Collections.emptyList());
@@ -56,7 +46,6 @@ public class Graph {
         Map<String, String> prev = new HashMap<>();
         PriorityQueue<PQNode> pq = new PriorityQueue<>(Comparator.comparingLong(n -> n.dist));
 
-        // initialize
         for (String node : adjList.keySet()) dist.put(node, Long.MAX_VALUE);
         dist.put(start, 0L);
         pq.add(new PQNode(start, 0L));
@@ -81,13 +70,11 @@ public class Graph {
             return new PathResult(-1, Collections.emptyList());
         }
 
-        // Reconstruct path
         LinkedList<String> path = new LinkedList<>();
         for (String at = end; at != null; at = prev.get(at)) {
             path.addFirst(at);
             if (at.equals(start)) break;
         }
-        // If start is not the first in path, it means unreachable
         if (path.isEmpty() || !path.getFirst().equals(start)) {
             return new PathResult(-1, Collections.emptyList());
         }
